@@ -6,6 +6,7 @@ through the ledger and documents MCP servers.
 import json
 import os
 import sys
+import time
 from contextlib import AsyncExitStack
 
 from mcp import ClientSession, StdioServerParameters
@@ -50,7 +51,9 @@ class Toolbox:
         server = self._tool_server.get(tool)
         if server is None:
             raise ValueError(f"unknown tool '{tool}'")
+        start = time.perf_counter()
         result = await self._sessions[server].call_tool(tool, args)
         data = json.loads(result.content[0].text)
-        self.calls.append({"tool": tool, "args": args, "result": data})
+        self.calls.append({"tool": tool, "server": server, "args": args, "result": data,
+                           "ms": round((time.perf_counter() - start) * 1000, 1)})
         return data

@@ -1,17 +1,19 @@
 """Document MCP server: lets the expense agent list invoice PDFs and extract their fields."""
+import os
 from pathlib import Path
 
 from mcp.server.mcpserver import MCPServer
 
 from mcp_servers.documents.extract import extract_invoice_fields, read_pdf_text
 
-INVOICE_DIR = Path(__file__).resolve().parents[2] / "data" / "invoices"
+# INVOICE_DIR can be pointed elsewhere (the evaluation suite uses eval/invoices)
+INVOICE_DIR = Path(os.getenv("INVOICE_DIR", Path(__file__).resolve().parents[2] / "data" / "invoices"))
 
 mcp = MCPServer("documents")
 
 
 def _safe_path(filename: str) -> Path | None:
-    """Only allow PDFs inside data/invoices, so the agent can't read other files."""
+    """Only allow PDFs inside the invoice folder, so the agent can't read other files."""
     path = (INVOICE_DIR / filename).resolve()
     if path.parent != INVOICE_DIR.resolve() or path.suffix.lower() != ".pdf" or not path.exists():
         return None

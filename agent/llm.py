@@ -23,7 +23,10 @@ def _template(state) -> str:
     if state.decision == "flagged":
         return f"Flagged {head}{amount}: " + "; ".join(state.findings) + "."
     if state.decision == "needs_approval":
-        return f"{head}{amount} passed all checks but needs human approval (over the approval threshold)."
+        from agent.workflow import APPROVAL_THRESHOLD
+
+        return (f"{head}{amount} passed all checks but needs human approval "
+                f"(at or above the ${APPROVAL_THRESHOLD:,.2f} approval threshold).")
     if state.decision == "recorded":
         return f"Recorded {head}{amount} as pending payment."
     if state.decision == "rejected_by_human":

@@ -28,7 +28,7 @@ Invoices / receipts (PDF)
 - [x] Week 2: MCP server for document extraction
 - [x] Week 3: LangGraph agent wired to the MCP tools
 - [x] Week 4: Human approval step and spend-limit guardrails (approval over $1,000, spend limits, duplicate and vendor checks)
-- [ ] Week 5: Evaluation suite and tracing
+- [x] Week 5: Evaluation suite and tracing (17 cases: decision accuracy, safety, reason recall, explanation checks, DeepEval LLM-as-judge, tool-call traces)
 - [ ] Week 6: Demo video, results and write-up
 
 ## Run the tests
@@ -40,6 +40,9 @@ python -m pytest -q
 
 # run the agent on all sample invoices
 python scripts\run_agent.py
+
+# evaluation suite (writes evals/results/report.md)
+python -m evals.run
 
 # same thing through the LangGraph graph
 pip install -r requirements-agent.txt
