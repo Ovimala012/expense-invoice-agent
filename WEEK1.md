@@ -4,11 +4,13 @@ Goal: an MCP server that exposes the company ledger as tools an AI agent can cal
 
 ## What's here
 - `mcp_servers/ledger/db.py` - a small SQLite ledger with synthetic vendors, budgets and invoices
-- `mcp_servers/ledger/server.py` - the MCP server with 4 tools:
+- `mcp_servers/ledger/server.py` - the MCP server with 6 tools:
   - `get_vendor` - is this vendor approved?
   - `get_budget` - how much budget is left?
   - `check_duplicate_invoice` - was this invoice already entered?
-  - `record_invoice` - save a new invoice as *pending* (payment always needs a human)
+  - `list_pending_invoices` - which invoices are waiting for a human?
+  - `check_policy` - is this amount within the department's limit and remaining budget?
+  - `record_invoice` - save a new invoice as *pending* (payment always needs a human); refuses unknown/unapproved vendors and duplicates
 - `scripts/try_ledger.py` - starts the server and calls each tool, like an agent would
 
 ## Run it (Windows, VS Code terminal)
@@ -18,10 +20,10 @@ py -m venv .venv
 pip install -r requirements.txt
 python scripts\try_ledger.py
 ```
-You should see the 4 tool names and a result for each call.
+You should see the 6 tool names and a result for each call.
 
-## Your exercises this week
-1. Add a tool `list_pending_invoices(department)` that returns pending invoices.
-2. Add a `policy` table (max single invoice per department) and a `check_policy` tool.
-3. Make `record_invoice` refuse unapproved vendors.
-4. Commit after each exercise with a clear message.
+## Exercises (done)
+- [x] `list_pending_invoices(department)` returns a department's pending invoices.
+- [x] `policy` table (max single invoice per department) and a `check_policy` tool that also checks remaining budget.
+- [x] `record_invoice` refuses unknown and unapproved vendors.
+- Tests for all of these are in `tests/test_ledger.py`.

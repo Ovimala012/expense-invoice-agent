@@ -18,7 +18,10 @@ async def main() -> None:
                 ("get_vendor", {"vendor_id": "V003"}),
                 ("get_budget", {"department": "Marketing"}),
                 ("check_duplicate_invoice", {"vendor_id": "V001", "invoice_number": "INV-1001"}),
+                ("check_policy", {"department": "Engineering", "amount": 7200.0}),
+                ("record_invoice", {"vendor_id": "V003", "invoice_number": "INV-7001", "department": "Marketing", "amount": 900.0}),
                 ("record_invoice", {"vendor_id": "V002", "invoice_number": "INV-2001", "department": "Engineering", "amount": 980.0}),
+                ("list_pending_invoices", {"department": "Engineering"}),
             ]:
                 result = await session.call_tool(name, args)
                 print(f"{name}({args}) -> {result.content[0].text}")
