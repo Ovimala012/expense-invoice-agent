@@ -1,0 +1,4 @@
+-r requirements.txt
+langgraph>=0.4
+openai>=1.40
+python-dotenv>=1.0

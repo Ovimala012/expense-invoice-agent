@@ -24,15 +24,30 @@ Invoices / receipts (PDF)
 
 ## Build plan
 
-- [ ] Week 1: MCP server for the ledger (PostgreSQL)
-- [ ] Week 2: MCP server for document extraction
-- [ ] Week 3: LangGraph agent wired to the MCP tools
-- [ ] Week 4: Human approval step and spend-limit guardrails
+- [x] Week 1: MCP server for the ledger (SQLite for now; PostgreSQL later)
+- [x] Week 2: MCP server for document extraction
+- [x] Week 3: LangGraph agent wired to the MCP tools
+- [x] Week 4: Human approval step and spend-limit guardrails (approval over $1,000, spend limits, duplicate and vendor checks)
 - [ ] Week 5: Evaluation suite and tracing
 - [ ] Week 6: Demo video, results and write-up
 
+## Run the tests
+
+```
+pip install -r requirements.txt
+python scripts\make_sample_invoices.py
+python -m pytest -q
+
+# run the agent on all sample invoices
+python scripts\run_agent.py
+
+# same thing through the LangGraph graph
+pip install -r requirements-agent.txt
+python scripts\run_agent.py --graph
+```
+
 ## Tech
 
-Python · MCP · LangGraph · Azure OpenAI · PostgreSQL · DeepEval · Docker
+Python · MCP · pypdf · pytest · LangGraph · Azure OpenAI · PostgreSQL · DeepEval · Docker
 
 All data in this project is synthetic.
